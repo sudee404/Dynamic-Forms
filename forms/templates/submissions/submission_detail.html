@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Submission Detail Section -->
+    <section class="py-5 bg-light">
+        <div class="container px-5 mb-5">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">{{ submission.form.title }}</span></h1>
+                <p class="lead text-muted">{{ submission.form.description|default:'No description provided.' }}</p>
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-11 col-xl-9 col-xxl-8">
+                    <!-- Submission Answers Card -->
+                    <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="fw-bold mb-0">Submitted Answers</h4>
+                        </div>
+                        <div class="card-body p-4">
+                            {% if submission.answers.all %}
+                                <div class="accordion" id="answerAccordion">
+                                    {% for answer in submission.answers.all %}
+                                        <div class="accordion-item mb-3">
+                                            <h5 class="accordion-header" id="heading{{ answer.question.id }}">
+                                                <button class="accordion-button fw-bold text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ answer.question.id }}" aria-expanded="true" aria-controls="collapse{{ answer.question.id }}">
+                                                    {{ answer.question.text }}
+                                                </button>
+                                            </h5>
+                                            <div id="collapse{{ answer.question.id }}" class="accordion-collapse collapse{% if forloop.first %} show{% endif %}" aria-labelledby="heading{{ answer.question.id }}" data-bs-parent="#answerAccordion">
+                                                <div class="accordion-body">
+                                                    <p class="mb-1 text-muted"><strong>Answer:</strong> {{ answer.answer_text }}</p>
+                                                    <!-- Additional answer details can go here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <p class="text-muted">No answers available.</p>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No answers have been provided for this submission yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

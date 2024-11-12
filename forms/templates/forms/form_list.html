@@ -22,7 +22,8 @@
                                 <div class="flex-grow-1">
                                     <h3 class="fw-bold mb-2 text-primary">{{ form.title }}</h3>
                                     <p class="text-muted mb-3">{{ form.description|default:"No description provided." }}</p>
-                                    <a class="btn btn-outline-primary" href="{% url 'form_detail' form_id=form.id %}">View Form</a>
+                                    <a class="btn btn-outline-primary me-3" href="{% url 'form_view' form_id=form.slug %}">Form View</a>
+                                    <a class="btn btn-primary" href="{% url 'form_detail' form_id=form.id %}">Detail View</a>
                                 </div>
                              </div>
                           </div>

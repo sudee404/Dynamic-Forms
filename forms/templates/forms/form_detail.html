@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Form Detail Section -->
+  <section class="py-5 bg-light">
+    <div class="container px-5 mb-5">
+      <div class="text-center mb-5">
+        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">{{ form.title }}</span></h1>
+        <p class="lead text-muted">{{ form.description|default:'No description provided.' }}</p>
+      </div>
+      <div class="row gx-5 justify-content-center">
+        <div class="col-lg-11 col-xl-9 col-xxl-8">
+          <!-- Form Questions Card -->
+          <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+              <h4 class="fw-bold mb-0">Questions</h4>
+              <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addQuestionModal">Add Question</button>
+            </div>
+            <div class="card-body p-4">
+              {% if form.questions.all %}
+                <div class="accordion" id="questionAccordion">
+                  {% for question in form.questions.all %}
+                    <div class="accordion-item mb-3">
+                      <h5 class="accordion-header" id="heading{{ question.id }}">
+                        <button class="accordion-button fw-bold text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ question.id }}" aria-expanded="true" aria-controls="collapse{{ question.id }}">
+                          {{ question.text }}
+                        </button>
+                      </h5>
+                      <div id="collapse{{ question.id }}" class="accordion-collapse collapse{% if forloop.first %} show{% endif %}" aria-labelledby="heading{{ question.id }}" data-bs-parent="#questionAccordion">
+                        <div class="accordion-body">
+                          <p class="mb-1 text-muted"><strong>Type:</strong> {{ question.get_question_type_display }}</p>
+                          {% if question.question_type == 'choice' %}
+                            <p class="mb-1 text-muted"><strong>Choices:</strong> {{ question.choices }}</p>
+                          {% endif %}
+                          <!-- Additional question details can go here -->
+                        </div>
+                      </div>
+                    </div>
+                  {% empty %}
+                    <p class="text-muted">No questions available.</p>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="text-muted">No questions have been added to this form yet.</p>
+              {% endif %}
+            </div>
+          </div>
+          <!-- Link to Form Submissions -->
+          <div class="text-center">
+            <a href="{% url 'form_submissions' form.id %}" class="btn btn-primary">View Submissions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Add Question Modal -->
+  <div class="modal fade" id="addQuestionModal" tabindex="-1" aria-labelledby="addQuestionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addQuestionModalLabel">Add a New Question</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="{% url 'add_question' form.id %}">
+            {% csrf_token %}
+            {{ question_form.as_p }}
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Add Question</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

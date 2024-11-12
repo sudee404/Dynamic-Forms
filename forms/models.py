@@ -33,6 +33,10 @@ class Question(models.Model):
     question_type = models.CharField(max_length=10, choices=QUESTION_TYPES)
     choices = models.TextField(blank=True, help_text="Comma-separated values for multiple choice questions")
 
+    @property
+    def get_choices(self):
+        return self.choices.split(',') if self.choices else []
+    
     def __str__(self):
         return self.text
 
