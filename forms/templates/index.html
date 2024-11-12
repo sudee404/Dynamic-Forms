@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Hero Section -->
+  <header class="d-flex align-items-center min-vh-100 py-5 bg-light">
+    <div class="container px-5 pb-5">
+        <div class="text-center mx-auto">
+            <div class="badge bg-gradient-primary-to-secondary text-white mb-4 px-4 py-2">
+              <div class="text-uppercase">Form Builder &middot; Submissions &middot; Analytics</div>
+            </div>
+            <p class="fs-4 fw-light text-muted mb-3">Empowering you to create, share, and analyze forms seamlessly</p>
+            <h1 class="display-3 fw-bolder mb-5"><span class="text-gradient d-inline">Craft Beautiful Forms, Gather Responses, Gain Insights</span></h1>
+            <div class="d-grid gap-3 d-sm-flex justify-content-center mb-4">
+          
+          {% if user.is_authenticated %}
+            <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder" href="{% url 'forms' %}">My Forms</a>
+            <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="{% url 'submissions' %}">Submissions</a>
+          {% else %}
+            <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder" href="{% url 'login' %}">Get Started</a>
+          {% endif %}
+            
+            </div>
+        </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section class="bg-light py-5">
+    <div class="container px-5">
+      <div class="text-center mb-5">
+        <h2 class="display-5 fw-bolder"><span class="text-gradient d-inline">Why Choose Us?</span></h2>
+        <p class="lead fw-light text-muted">Discover the tools that make form building effortless and insightful.</p>
+      </div>
+      <div class="row gx-5 text-center">
+        <div class="col-md-4 mb-4">
+          <i class="bi bi-pencil-square fs-1 text-gradient mb-3"></i>
+          <h3 class="h5 fw-bold">Intuitive Form Builder</h3>
+          <p class="text-muted">Drag-and-drop interface that lets you create stunning forms in minutes without any coding.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+          <i class="bi bi-people fs-1 text-gradient mb-3"></i>
+          <h3 class="h5 fw-bold">Real-Time Responses</h3>
+          <p class="text-muted">View responses as they come in, with options for easy data management and exports.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+          <i class="bi bi-graph-up fs-1 text-gradient mb-3"></i>
+          <h3 class="h5 fw-bold">In-Depth Analytics</h3>
+          <p class="text-muted">Transform your data into actionable insights with built-in analytics and reporting tools.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+    <div class="page-header">
+        <h4 class="page-title">{% if department.id %}Edit{% else %}Create{% endif %} Department</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a href="{% url 'home' %}"><i class="icon-home"></i></a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'departments' %}">Departments</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="{% if department.id %}{% url 'department_update' department.id %}{% else %}{% url 'new_department' %}{% endif %}">
+                    {% if department.id %}Edit{% else %}Create{% endif %} Department
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">{% if department.id %}Edit{% else %}Create{% endif %} Department</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% if department.id %}{% url 'department_update' department.id %}{% else %}{% url 'new_department' %}{% endif %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="name">Department Name</label>
+                            <input type="text" id="name" name="name" class="form-control" value="{{ department.name }}">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" class="form-control">{{ department.description }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">{% if department.id %}Update{% else %}Create{% endif %} Department</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

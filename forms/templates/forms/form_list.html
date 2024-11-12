@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Forms Section-->
+    <section class="py-5 bg-light">
+       <div class="container px-5 mb-5">
+          <div class="text-center mb-5">
+             <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Forms Collection</span></h1>
+             <p class="lead text-muted">Explore and manage your forms with ease</p>
+          </div>
+          <div class="row gx-5 justify-content-center">
+             <div class="col-lg-11 col-xl-9 col-xxl-8">
+                {% if forms %}
+                    {% for form in forms %}
+                       <!-- Form Card -->
+                       <div class="card overflow-hidden shadow-sm rounded-4 border-0 mb-4 bg-white">
+                          <div class="card-body p-4">
+                             <div class="d-flex align-items-center">
+                                <div class="icon-wrapper bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-4" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-journal-richtext fs-2"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h3 class="fw-bold mb-2 text-primary">{{ form.title }}</h3>
+                                    <p class="text-muted mb-3">{{ form.description|default:"No description provided." }}</p>
+                                    <a class="btn btn-outline-primary" href="{% url 'form_detail' form_id=form.id %}">View Form</a>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info text-center">No forms have been created yet. Start by creating your first form below!</div>
+                {% endif %}
+             </div>
+          </div>
+       </div>
+    </section>
+    
+    <!-- Call to action section-->
+    <section class="py-5 bg-gradient-primary-to-secondary text-white">
+       <div class="container px-5 my-5">
+          <div class="text-center">
+             <h2 class="display-4 fw-bolder mb-4">Create Your Own Form</h2>
+             <p class="lead mb-4">Start collecting valuable data by building a custom form in just a few clicks.</p>
+             <a class="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder shadow" href="{% url 'create_form' %}">Start Now</a>
+          </div>
+       </div>
+    </section>
+{% endblock content %}

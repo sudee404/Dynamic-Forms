@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+  <div class="page-header">
+    <h4 class="page-title">{% if form.instance.pk %}Update User{% else %}New User{% endif %}</h4>
+    <ul class="breadcrumbs">
+      <li class="nav-home">
+        <a href="{% url 'home' %}"><i class="icon-home"></i></a>
+      </li>
+      <li class="separator">
+        <i class="icon-arrow-right"></i>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'users' %}">Users</a>
+      </li>
+      <li class="separator">
+        <i class="icon-arrow-right"></i>
+      </li>
+      <li class="nav-item">
+        <a href="{% if form.instance.pk %}{% url 'user_update' form.instance.pk %}{% else %}{% url 'new_user' %}{% endif %}">
+          {% if form.instance.pk %}Update{% else %}Create New{% endif %}
+        </a>
+      </li>
+    </ul>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% if form.instance.pk %}Update User{% else %}Create New User{% endif %}</h4>
+    </div>
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data" action="{% if form.instance.pk %}{% url 'user_update' form.instance.pk %}{% else %}{% url 'new_user' %}{% endif %}">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="first_name">First Name</label>
+              <input type="text" class="form-control" id="first_name" name="first_name" value="{{ form.first_name.value|default_if_none:'' }}" placeholder="Enter first name" required />
+              {% if form.first_name.errors %}
+                <div class="text-danger">
+                  {{ form.first_name.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="last_name">Last Name</label>
+              <input type="text" class="form-control" id="last_name" name="last_name" value="{{ form.last_name.value|default_if_none:'' }}" placeholder="Enter last name" required />
+              {% if form.last_name.errors %}
+                <div class="text-danger">
+                  {{ form.last_name.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="username" name="username" value="{{ form.username.value|default_if_none:'' }}" placeholder="Enter username" required />
+              {% if form.username.errors %}
+                <div class="text-danger">
+                  {{ form.username.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" value="{{ form.email.value|default_if_none:'' }}" placeholder="Enter email" required />
+              {% if form.email.errors %}
+                <div class="text-danger">
+                  {{ form.email.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>   
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="role">Department</label>
+              <select class="form-control" id="role" name="department" required>
+              {% for dept in departments %}
+                <option value="{{ dept.pk }}" {% if form.instance.department == dept.pk %}selected{% endif %}>
+                  {{ dept.name }}
+                </option>
+              {% endfor %}
+              </select>  
+              {% if form.department.errors %}
+                <div class="text-danger">
+                  {{ form.department.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="role">Work Arrangement</label>
+              <select class="form-control" id="role" name="arrangement" required>
+                <option value="full-time" {% if form.instance.arrangement == 'full-time' %}selected{% endif %}>Full-Time</option>
+                <option value="intern" {% if form.instance.arrangement == 'intern' %}selected{% endif %}>Intern</option>
+                <option value="attachee" {% if form.instance.arrangement == 'attachee' %}selected{% endif %}>Attachee</option>
+              </select>  
+              {% if form.arrangement.errors %}
+                <div class="text-danger">
+                  {{ form.arrangement.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>        
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="role">Role</label>
+              <select class="form-control" id="role" name="role" required>
+                <option value="employee" {% if form.instance.role == 'employee' %}selected{% endif %}>Employee</option>
+                <option value="manager" {% if form.instance.role == 'manager' %}selected{% endif %}>Manager</option>
+              </select>
+              {% if form.role.errors %}
+                <div class="text-danger">
+                  {{ form.role.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" value="{{ form.password.value|default_if_none:'' }}" placeholder="Enter password" required />
+              {% if form.password.errors %}
+                <div class="text-danger">
+                  {{ form.password.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="image">Profile Image</label>
+              <input type="file" class="form-control" id="image" name="image" />
+              {% if form.image.errors %}
+                <div class="text-danger">
+                  {{ form.image.errors }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Update User{% else %}Save User{% endif %}</button>
+          <a href="{% url 'users' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

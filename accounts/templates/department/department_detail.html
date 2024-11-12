@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+    <div class="page-header">
+        <h4 class="page-title">Department Details</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a href="{% url 'home' %}"><i class="icon-home"></i></a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'departments' %}">Departments</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'department_detail' department.id %}">Department Details</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Department Details</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">Department Name</label>
+                        <p id="name">{{ department.name }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <p id="description">{{ department.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="{% url 'departments' %}" class="btn btn-secondary">Back to Departments</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

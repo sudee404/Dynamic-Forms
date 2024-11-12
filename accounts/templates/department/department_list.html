@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+    <div class="page-header">
+        <h4 class="page-title">Departments</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a href="{% url 'home' %}"><i class="icon-home"></i></a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'departments' %}">Departments</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <h4 class="card-title">Departments</h4>
+                <a href="{% url 'new_department' %}" class="btn btn-primary">Add Department</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for department in departments %}
+                        <tr>
+                            <td>{{ department.name }}</td>
+                            <td>{{ department.description }}</td>
+                            <td>
+                                <a href="{% url 'department_detail' department.id %}" class="btn btn-outline-primary btn-sm">View</a>
+                                <a href="{% url 'department_update' department.id %}" class="btn btn-outline-info btn-sm">Edit</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
