@@ -1,0 +1,11 @@
+services:
+  projectqr:
+    image: dynamic-forms
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=secret
+    ports:
+      - 8000:8000
